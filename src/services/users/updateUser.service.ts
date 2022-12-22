@@ -2,10 +2,13 @@ import { hashSync } from "bcryptjs";
 import AppDataSource from "../../data-source";
 import { User } from "../../entities/userEntity";
 import { AppError } from "../../errors/AppError";
-import { IUserUpdate } from "../../interfaces/users";
+import { IUser, IUserUpdate } from "../../interfaces/users";
 import { userWithOutPasswordSerializer } from "../../serializers/users.serializers";
 
-export const updateUserService = async (id: string, body: IUserUpdate) => {
+export const updateUserService = async (
+  id: string,
+  body: IUserUpdate
+): Promise<IUser> => {
   const bodyKeys = Object.keys(body);
 
   if (

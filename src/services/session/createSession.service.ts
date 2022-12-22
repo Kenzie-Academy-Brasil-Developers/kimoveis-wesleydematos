@@ -6,7 +6,10 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { AppError } from "../../errors/AppError";
 
-export const createSessionService = async ({ email, password }: IUserLogin) => {
+export const createSessionService = async ({
+  email,
+  password,
+}: IUserLogin): Promise<{ token: string }> => {
   const userRepository = AppDataSource.getRepository(User);
 
   const foundUser = await userRepository.findOneBy({ email: email });
@@ -19,6 +22,10 @@ export const createSessionService = async ({ email, password }: IUserLogin) => {
 
   if (!passwordMatch) {
     throw new AppError("User or password invalid!", 403);
+  }
+
+  if (!foundUser.isActive) {
+    throw new AppError("Inactive User");
   }
 
   const token = jwt.sign({ foundUser: foundUser }, process.env.SECRET_KEY!, {
