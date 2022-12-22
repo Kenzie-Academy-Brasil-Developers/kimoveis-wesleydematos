@@ -12,8 +12,6 @@ const createUserService = async (userData: IUserRequest) => {
     const user = userRepository.create(userData);
     await userRepository.save(user);
 
-    console.log(user);
-
     const userWoP = await userWithOutPasswordSerializer.validate(user, {
       stripUnknown: true,
     });
