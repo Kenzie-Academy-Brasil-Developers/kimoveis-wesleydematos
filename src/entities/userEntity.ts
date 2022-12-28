@@ -1,5 +1,4 @@
 import { hashSync } from "bcryptjs";
-import { Exclude } from "class-transformer";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,7 +7,9 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  OneToMany,
 } from "typeorm";
+import { Schedules } from "./schedulesEntity";
 
 @Entity("users")
 export class User {
@@ -22,7 +23,6 @@ export class User {
   email: string;
 
   @Column()
-  @Exclude()
   password: string;
 
   @Column()
@@ -42,4 +42,7 @@ export class User {
   hashPassword() {
     this.password = hashSync(this.password, 10);
   }
+
+  @OneToMany(() => Schedules, (schedule) => schedule.id)
+  schedules: Schedules[];
 }
