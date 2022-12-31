@@ -15,6 +15,5 @@ categoriesRoutes.post(
   ensureRequesterIsAdmMiddleware,
   createCategoryController
 );
-
 categoriesRoutes.get("", listCategoriesController);
 categoriesRoutes.get("/:id/properties", listCategoryWithPropertyByIdController);
